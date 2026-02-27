@@ -1,8 +1,8 @@
-# FSD Next.js Reference - 프로젝트 구조
+# FSD Next.js Reference - Project Structure
 
-실제 프로젝트 규모의 Feature-Sliced Design 아키텍처 예시입니다.
+A production-scale Feature-Sliced Design architecture example.
 
-## 도메인 구조
+## Domain Structure
 
 ### User Domain
 ```
@@ -10,12 +10,12 @@ src/domains/user/
 ├── api/
 │   └── user.api.js          # Mock API (fetchUsers, fetchUserById, createUser)
 ├── schema/
-│   └── user.schema.js       # 스키마 정의 및 검증 (USER_ROLES, validateUserData)
+│   └── user.schema.js       # Schema definition and validation (USER_ROLES, validateUserData)
 ├── store/
-│   ├── user.store.js        # Zustand 전역 상태
-│   └── user.repository.js   # Repository 패턴
+│   ├── user.store.js        # Zustand global state
+│   └── user.repository.js   # Repository pattern
 └── util/
-    └── user.util.js         # 유틸리티 함수 (formatUserName, getUserInitials)
+    └── user.util.js         # Utility functions (formatUserName, getUserInitials)
 ```
 
 ### Product Domain
@@ -24,31 +24,34 @@ src/domains/product/
 ├── api/
 │   └── product.api.js       # Mock API (fetchProducts, createProduct, updateProductStock)
 ├── schema/
-│   └── product.schema.js    # 스키마 정의 및 검증 (PRODUCT_CATEGORIES, validateProductData)
+│   └── product.schema.js    # Schema definition and validation (PRODUCT_CATEGORIES, validateProductData)
 ├── store/
-│   ├── product.store.js     # Zustand 전역 상태 (장바구니 포함)
-│   └── product.repository.js # Repository 패턴
+│   ├── product.store.js     # Zustand global state (includes cart)
+│   └── product.repository.js # Repository pattern
 └── util/
-    └── product.util.js      # 유틸리티 함수 (formatPrice, calculateCartTotal)
+    └── product.util.js      # Utility functions (formatPrice, calculateCartTotal)
 ```
 
 ## Features
 
-- `user.useLoadUsers.feature.js` - 사용자 목록 로드
-- `user.useCreateUser.feature.js` - 사용자 생성
-- `product.useLoadProducts.feature.js` - 상품 목록 로드
-- `product.useAddToCart.feature.js` - 장바구니 추가
+- `user.useLoadUsers.feature.js` - Load user list
+- `user.useCreateUser.feature.js` - Create user
+- `product.useLoadProducts.feature.js` - Load product list
+- `product.useAddToCart.feature.js` - Add to cart
+- `product.useRemoveFromCart.feature.js` - Remove from cart
+- `product.useClearCart.feature.js` - Clear cart
 
 ## Widgets
 
-- `UserListWidget` - 사용자 목록 표시
-- `ProductListWidget` - 상품 목록 및 장바구니 추가
-- `CartWidget` - 장바구니 관리
+- `UserListWidget` - Display user list
+- `CreateUserWidget` - Create new user form
+- `ProductListWidget` - Product list and add to cart
+- `CartWidget` - Shopping cart management
 
-## 실행
+## Run
 
 ```bash
 bun dev
 ```
 
-http://localhost:3000 에서 확인
+Open http://localhost:3000

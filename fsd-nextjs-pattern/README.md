@@ -1,31 +1,31 @@
 # FSD Next.js Reference
 
-Feature-Sliced Design 아키텍처를 적용한 Next.js 16 레퍼런스 프로젝트입니다.
+A Next.js 16 reference project implementing Feature-Sliced Design architecture.
 
-## 🚀 시작하기
+## 🚀 Getting Started
 
 ```bash
-# 의존성 설치
+# Install dependencies
 bun install
 
-# 개발 서버 실행
+# Run development server
 bun dev
 ```
 
-http://localhost:3000 에서 확인
+Open http://localhost:3000
 
-## 📁 프로젝트 구조
+## 📁 Project Structure
 
-### 7계층 레이어 아키텍처
+### 7-Layer Architecture
 
 ```mermaid
 graph TD
-    A[app - 최상위] --> B[app-configs]
+    A[app - Top] --> B[app-configs]
     A --> C[widgets]
     A --> D[features]
     A --> E[domains]
     A --> F[libs]
-    A --> G[shared - 최하위]
+    A --> G[shared - Bottom]
     
     B --> C
     B --> D
@@ -51,21 +51,21 @@ graph TD
     style G fill:#fff3e0
 ```
 
-### 레이어별 역할
+### Layer Responsibilities
 
-| 레이어 | 역할 | 참조 가능 레이어 |
-|--------|------|------------------|
-| **app** | Next.js App Router, 페이지 라우팅 | 모든 하위 레이어 |
-| **app-configs** | 전역 설정, 미들웨어, 테마 | widgets ~ shared |
-| **widgets** | 완성된 UI 컴포넌트 (여러 feature 조합) | features ~ shared |
-| **features** | 비즈니스 로직 단위 (hooks) | domains ~ shared |
-| **domains** | 엔티티별 데이터 관리 (api, schema, store, util) | libs, shared |
-| **libs** | 외부 라이브러리 래퍼 | shared |
-| **shared** | 공통 유틸리티, UI 컴포넌트 | - |
+| Layer | Role | Can Reference |
+|-------|------|---------------|
+| **app** | Next.js App Router, page routing | All lower layers |
+| **app-configs** | Global config, middleware, theme | widgets ~ shared |
+| **widgets** | Complete UI components (multiple features) | features ~ shared |
+| **features** | Business logic units (hooks) | domains ~ shared |
+| **domains** | Entity data management (api, schema, store, util) | libs, shared |
+| **libs** | External library wrappers | shared |
+| **shared** | Common utilities, UI components | - |
 
-## 🔄 호출 관계 다이어그램
+## 🔄 Call Flow Diagram
 
-### UI → Feature → Domain 흐름
+### UI → Feature → Domain Flow
 
 ```mermaid
 sequenceDiagram
@@ -87,39 +87,39 @@ sequenceDiagram
     F-->>W: { products, loading, error }
 ```
 
-### Domain 내부 구조
+### Domain Internal Structure
 
 ```mermaid
 graph LR
-    A[API] -->|순수 데이터| B[Feature]
-    C[Schema] -->|타입 정의| B
-    D[Util] -->|검증/변환| B
+    A[API] -->|Pure data| B[Feature]
+    C[Schema] -->|Type definition| B
+    D[Util] -->|Validation/Transform| B
     B -->|setState| E[Repository]
-    E -->|상태 관리| F[Store]
+    E -->|State management| F[Store]
     B -->|useStates| E
-    E -->|구독| F
+    E -->|Subscribe| F
 ```
 
-## 📂 Domain 구조 예시
+## 📂 Domain Structure Example
 
 ```
 src/domains/user/
 ├── api/
-│   └── user.api.js          # Mock API (순수 fetch)
+│   └── user.api.js          # Mock API (pure fetch)
 ├── schema/
-│   └── user.schema.js       # 엔티티 정의, 상수
+│   └── user.schema.js       # Entity definition, constants
 ├── store/
-│   ├── user.store.js        # Zustand 상태 (순수 상태만)
+│   ├── user.store.js        # Zustand state (pure state only)
 │   └── user.repository.js   # getState, setState, useStates
 └── util/
-    └── user.util.js         # 검증, 포맷팅, 유틸리티
+    └── user.util.js         # Validation, formatting, utilities
 ```
 
-## 🎯 핵심 규칙
+## 🎯 Core Rules
 
-### 1. Repository 패턴
+### 1. Repository Pattern
 ```javascript
-// ✅ Repository는 3개 함수만
+// ✅ Repository has only 3 functions
 export const userRepository = {
   getState: () => useUserStore.getState(),
   setState: (state) => useUserStore.setState(state),
@@ -127,12 +127,12 @@ export const userRepository = {
 };
 ```
 
-### 2. Feature에서만 Repository 호출
+### 2. Only Features Call Repository
 ```javascript
 // ✅ Feature
 export const useLoadUsers = () => {
   const users = userRepository.useStates(state => state.users);
-  // ... 로직
+  // ... logic
   userRepository.setState({ users });
   return { users, loading, error };
 };
@@ -140,66 +140,66 @@ export const useLoadUsers = () => {
 // ✅ Widget
 const { users, loading } = useLoadUsers();
 
-// ❌ Widget에서 직접 호출 금지
+// ❌ Direct call from Widget is prohibited
 const users = userRepository.useStates(state => state.users); // NO!
 ```
 
-### 3. Store는 순수 상태만
+### 3. Store Contains Pure State Only
 ```javascript
-// ✅ 함수 없이 상태만
+// ✅ State only, no functions
 export const useUserStore = create(() => ({
   users: [],
   currentUser: null,
 }));
 ```
 
-### 4. Schema는 엔티티 정의만
+### 4. Schema for Entity Definition Only
 ```javascript
-// ✅ Schema - 타입과 상수만
+// ✅ Schema - types and constants only
 export const USER_ROLES = { ADMIN: 'admin', USER: 'user' };
 
-// ✅ Util - 검증 로직
+// ✅ Util - validation logic
 export const validateUserData = (data) => { /* ... */ };
 ```
 
-### 5. API는 순수 데이터 반환
+### 5. API Returns Pure Data
 ```javascript
-// ✅ API - store 연결 없음
+// ✅ API - no store connection
 export const fetchUsers = async () => {
   await delay(500);
   return MOCK_USERS;
 };
 
-// ✅ Feature에서 API 호출 후 store 업데이트
+// ✅ Feature calls API then updates store
 const users = await fetchUsers();
 userRepository.setState({ users });
 ```
 
-## 📚 도메인 예시
+## 📚 Domain Examples
 
 ### User Domain
-- 사용자 목록 조회/생성
-- 역할 기반 필터링
-- 이메일 검증
+- User list retrieval/creation
+- Role-based filtering
+- Email validation
 
 ### Product Domain
-- 상품 목록 조회
-- 카테고리별 필터
-- 장바구니 관리
-- 재고 상태 확인
+- Product list retrieval
+- Category filtering
+- Shopping cart management
+- Stock status checking
 
-## 📖 상세 문서
+## 📖 Detailed Documentation
 
-- [01. Directory Layer](./docs/01-directory-layer.md) - 레이어 구조 상세
-- [02. Global State](./docs/02-global-state.md) - 전역 상태 관리
-- [03. JSDoc](./docs/03-jsdoc.md) - 문서화 규칙
-- [04. Anonymous Functions](./docs/04-anonymous-functions.md) - 익명 함수 사용
-- [05. Export Default](./docs/05-export-default.md) - Export 규칙
-- [06. Function Naming](./docs/06-function-naming.md) - 함수 네이밍
-- [07. Component Declaration](./docs/07-component-declaration.md) - 컴포넌트 선언
-- [08. Component Ordering](./docs/08-component-ordering.md) - 컴포넌트 순서
+- [01. Directory Layer](./docs/01-directory-layer.md) - Layer structure details
+- [02. Global State](./docs/02-global-state.md) - Global state management
+- [03. JSDoc](./docs/03-jsdoc.md) - Documentation rules
+- [04. Anonymous Functions](./docs/04-anonymous-functions.md) - Anonymous function usage
+- [05. Export Default](./docs/05-export-default.md) - Export rules
+- [06. Function Naming](./docs/06-function-naming.md) - Function naming
+- [07. Component Declaration](./docs/07-component-declaration.md) - Component declaration
+- [08. Component Ordering](./docs/08-component-ordering.md) - Component ordering
 
-## 🛠 기술 스택
+## 🛠 Tech Stack
 
 - **Framework**: Next.js 16.1.6 (App Router)
 - **Runtime**: Bun

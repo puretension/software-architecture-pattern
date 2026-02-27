@@ -7,9 +7,9 @@ import ProductListWidget from '@/widgets/product-list/ProductListWidget';
 import CartWidget from '@/widgets/cart/CartWidget';
 
 /**
- * 메인 페이지
- * - 사용자 목록, 상품 목록, 장바구니 위젯 표시
- * @author (작성자)
+ * Main page
+ * - Display user list, product list, and cart widgets
+ * @author (author)
  */
 export default function Page() {
   return (
@@ -19,7 +19,7 @@ export default function Page() {
           FSD Next.js Reference
         </Typography>
         <Typography variant="subtitle1" color="text.secondary" mb={4}>
-          실제 프로젝트 규모의 도메인 구조 예시
+          Production-scale domain structure example
         </Typography>
         
         <Grid container spacing={3}>
