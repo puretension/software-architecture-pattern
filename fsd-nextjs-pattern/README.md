@@ -190,14 +190,25 @@ userRepository.setState({ users });
 
 ## 📖 Detailed Documentation
 
-- [01. Directory Layer](./docs/01-directory-layer.md) - Layer structure details
-- [02. Global State](./docs/02-global-state.md) - Global state management
-- [03. JSDoc](./docs/03-jsdoc.md) - Documentation rules
-- [04. Anonymous Functions](./docs/04-anonymous-functions.md) - Anonymous function usage
-- [05. Export Default](./docs/05-export-default.md) - Export rules
-- [06. Function Naming](./docs/06-function-naming.md) - Function naming
-- [07. Component Declaration](./docs/07-component-declaration.md) - Component declaration
-- [08. Component Ordering](./docs/08-component-ordering.md) - Component ordering
+### English
+- [01. Directory Layer](./docs/en/01-directory-layer.md) - Layer structure details
+- [02. Global State](./docs/en/02-global-state.md) - Global state management
+- [03. JSDoc](./docs/en/03-jsdoc.md) - Documentation rules
+- [04. Anonymous Functions](./docs/en/04-anonymous-functions.md) - Anonymous function usage
+- [05. Export Default](./docs/en/05-export-default.md) - Export rules
+- [06. Function Naming](./docs/en/06-function-naming.md) - Function naming
+- [07. Component Declaration](./docs/en/07-component-declaration.md) - Component declaration
+- [08. Component Ordering](./docs/en/08-component-ordering.md) - Component ordering
+
+### 한국어
+- [01. Directory Layer](./docs/kr/01-directory-layer.md) - 레이어 구조 상세
+- [02. Global State](./docs/kr/02-global-state.md) - 전역 상태 관리
+- [03. JSDoc](./docs/kr/03-jsdoc.md) - 문서화 규칙
+- [04. Anonymous Functions](./docs/kr/04-anonymous-functions.md) - 익명 함수 사용
+- [05. Export Default](./docs/kr/05-export-default.md) - Export 규칙
+- [06. Function Naming](./docs/kr/06-function-naming.md) - 함수 네이밍
+- [07. Component Declaration](./docs/kr/07-component-declaration.md) - 컴포넌트 선언
+- [08. Component Ordering](./docs/kr/08-component-ordering.md) - 컴포넌트 순서
 
 ## 🛠 Tech Stack
 
