@@ -2,6 +2,8 @@
 
 A Next.js 16 reference project implementing Feature-Sliced Design architecture.
 
+> **Note**: This is not a strict FSD implementation, but a customized version tailored to work well with Next.js and Zustand. It serves as a practical example for projects using this tech stack.
+
 ## 🚀 Getting Started
 
 ```bash
@@ -117,6 +119,8 @@ src/domains/user/
 
 ## 🎯 Core Rules
 
+> This architecture is customized for Next.js + Zustand, deviating from strict FSD but providing practical patterns for real-world projects.
+
 ### 1. Repository Pattern
 ```javascript
 // ✅ Repository has only 3 functions
@@ -189,6 +193,8 @@ userRepository.setState({ users });
 - Stock status checking
 
 ## 📖 Detailed Documentation
+
+> Comprehensive coding guidelines and architectural decisions are documented in both English and Korean.
 
 ### English
 - [01. Directory Layer](./docs/en/01-directory-layer.md) - Layer structure details
